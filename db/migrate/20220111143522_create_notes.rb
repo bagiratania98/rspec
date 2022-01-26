@@ -2,8 +2,8 @@ class CreateNotes < ActiveRecord::Migration[6.1]
   def change
     create_table :notes do |t|
       t.text :message
-      t.integer :project_id
-      t.integer :user_id
+      t.references :project, foreign_key: true
+      t.references :user, foreign_key: true
 
       t.timestamps
     end

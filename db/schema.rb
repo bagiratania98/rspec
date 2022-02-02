@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_233239) do
+ActiveRecord::Schema.define(version: 2022_02_02_234338) do
 
   create_table "notes", force: :cascade do |t|
     t.text "message"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 2022_02_02_233239) do
     t.date "due_on"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -61,5 +63,6 @@ ActiveRecord::Schema.define(version: 2022_02_02_233239) do
 
   add_foreign_key "notes", "projects"
   add_foreign_key "notes", "users"
+  add_foreign_key "projects", "users"
   add_foreign_key "tasks", "projects"
 end

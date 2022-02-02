@@ -28,7 +28,6 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
-gem 'devise'
 
 group :development, :test do
   gem 'rspec-rails'
@@ -49,5 +48,20 @@ group :development do
   gem 'spring-commands-rspec'
 end
 
+group :test do
+  gem 'capybara', '~> 2.15.4'
+  gem 'selenium-webdriver'
+  gem 'chromedriver-helper'
+  # Or use poltergeist and PhantomJS as an alternative to Selenium/Chrome
+  # gem 'poltergeist', '~> 1.15.0'
+  gem 'launchy', '~> 2.4.3'
+end
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'bootstrap-sass'
+gem 'jquery-rails'
+gem 'devise'
+gem 'paperclip'
+gem 'geocoder'

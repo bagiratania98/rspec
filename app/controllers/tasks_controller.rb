@@ -1,62 +1,70 @@
 class TasksController < ApplicationController
   before_action :set_project
   before_action :project_owner?
-  before_action :set_task, only: %i[ show edit update destroy ]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :toggle]
 
-  # GET /tasks or /tasks.json
+  # GET /tasks
+  # GET /tasks.json
   def index
     @tasks = Task.all
   end
 
-  # GET /tasks/1 or /tasks/1.json
+  # GET /tasks/1
+  # GET /tasks/1.json
   def show
   end
 
   # GET /tasks/new
   def new
-    @task = Task.new
+    @task = @project.tasks.new
   end
 
   # GET /tasks/1/edit
   def edit
   end
 
-  # POST /tasks or /tasks.json
+  # POST /tasks
+  # POST /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = @project.tasks.new(task_params)
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to task_url(@task), notice: "Task was successfully created." }
-        format.json { render :show, status: :created, location: @task }
+        format.html { redirect_to @project, notice: 'Task was successfully created.' }
+        format.json { render :show, status: :created, location: [@task.project, @task] }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new }
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /tasks/1 or /tasks/1.json
+  # PATCH/PUT /tasks/1
+  # PATCH/PUT /tasks/1.json
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to task_url(@task), notice: "Task was successfully updated." }
+        format.html { redirect_to @project, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /tasks/1 or /tasks/1.json
+  # DELETE /tasks/1
+  # DELETE /tasks/1.json
   def destroy
     @task.destroy
-
     respond_to do |format|
-      format.html { redirect_to tasks_url, notice: "Task was successfully destroyed." }
+      format.html { redirect_to @project, notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def toggle
+    @task.update_attributes(completed: !@task.completed)
   end
 
   private
@@ -65,8 +73,8 @@ class TasksController < ApplicationController
       @task = Task.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+    # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      params.fetch(:task, {})
+      params.require(:task).permit(:name, :project_id, :completed)
     end
 end

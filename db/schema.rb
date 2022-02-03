@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_234338) do
+ActiveRecord::Schema.define(version: 2022_02_03_000105) do
 
   create_table "notes", force: :cascade do |t|
     t.text "message"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2022_02_02_234338) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
+    t.boolean "completed"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 

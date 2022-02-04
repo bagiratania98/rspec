@@ -10,17 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_24_113430) do
+ActiveRecord::Schema.define(version: 2022_02_03_204649) do
 
   create_table "notes", force: :cascade do |t|
     t.text "message"
     t.integer "project_id"
     t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "attachment_file_name"
     t.string "attachment_content_type"
-    t.integer "attachment_file_size"
+    t.bigint "attachment_file_size"
     t.datetime "attachment_updated_at"
     t.index ["project_id"], name: "index_notes_on_project_id"
     t.index ["user_id"], name: "index_notes_on_user_id"
@@ -30,9 +30,9 @@ ActiveRecord::Schema.define(version: 2022_01_24_113430) do
     t.string "name"
     t.text "description"
     t.date "due_on"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
     t.boolean "completed"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 2022_01_24_113430) do
     t.string "name"
     t.integer "project_id"
     t.boolean "completed"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"
   end
 
@@ -57,13 +57,17 @@ ActiveRecord::Schema.define(version: 2022_01_24_113430) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "first_name"
     t.string "last_name"
     t.string "authentication_token"
-    t.string "location"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "notes", "projects"
+  add_foreign_key "notes", "users"
+  add_foreign_key "projects", "users"
+  add_foreign_key "tasks", "projects"
 end

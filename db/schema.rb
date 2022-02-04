@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_03_000105) do
+ActiveRecord::Schema.define(version: 2022_02_03_204649) do
 
   create_table "notes", force: :cascade do |t|
     t.text "message"
@@ -18,6 +18,10 @@ ActiveRecord::Schema.define(version: 2022_02_03_000105) do
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "attachment_file_name"
+    t.string "attachment_content_type"
+    t.bigint "attachment_file_size"
+    t.datetime "attachment_updated_at"
     t.index ["project_id"], name: "index_notes_on_project_id"
     t.index ["user_id"], name: "index_notes_on_user_id"
   end

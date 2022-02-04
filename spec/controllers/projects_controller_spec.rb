@@ -4,19 +4,16 @@ RSpec.describe ProjectsController, type: :controller do
   describe "#index" do
     context "as an authenticated user" do
       before do
-          @user = FactoryBot.create(:user)
+        @user = FactoryBot.create(:user)
       end
 
       it "responds successfully" do
         sign_in @user
         get :index
-        expect(response).to be_success
-      end
-
-      it "returns a 200 response" do
-        sign_in @user
-        get :index
-        expect(response).to have_http_status "200"
+        aggregate_failures do
+          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(200)
+        end
       end
     end
 
@@ -43,7 +40,7 @@ RSpec.describe ProjectsController, type: :controller do
       it "responds successfully" do
         sign_in @user
         get :show, params: { id: @project.id }
-        expect(response).to be_success
+        expect(response).to have_http_status(200)
       end
     end
 
@@ -62,39 +59,30 @@ RSpec.describe ProjectsController, type: :controller do
     end
   end
 
-
   describe "#create" do
-    context "as an authenticated user"
+    context "as an authenticated user" do
       before do
         @user = FactoryBot.create(:user)
       end
 
-    context "with valid attributes" do
-      it "adds a project" do
-        project_params = FactoryBot.attributes_for(:project)
-        sign_in @user
-        expect {
-          post :create, params: { project: project_params }
-        }.to change(@user.projects, :count).by(1)
+      context "with valid attributes" do
+        it "adds a project" do
+          project_params = FactoryBot.attributes_for(:project)
+          sign_in @user
+          expect {
+            post :create, params: { project: project_params }
+          }.to change(@user.projects, :count).by(1)
+        end
       end
-    end
 
-    context "with invalid attributes" do
-      it "does not add a project" do
-        project_params = FactoryBot.attributes_for(:project, :invalid)
-        sign_in @user
-        expect {
-          post :create, params: { project: project_params }
-        }.to_not change(@user.projects, :count)
-      end
-    end
-
-      it "adds a project" do
-        project_params = FactoryBot.attributes_for(:project)
-        sign_in @user
-        expect {
-          post :create, params: { project: project_params }
-        }.to change(@user.project, :count).by(1)
+      context "with invalid attributes" do
+        it "does not add a project" do
+          project_params = FactoryBot.attributes_for(:project, :invalid)
+          sign_in @user
+          expect {
+            post :create, params: { project: project_params }
+          }.to_not change(@user.projects, :count)
+        end
       end
     end
 
@@ -154,7 +142,6 @@ RSpec.describe ProjectsController, type: :controller do
       end
     end
 
-
     context "as a guest" do
       before do
         @project = FactoryBot.create(:project)
@@ -173,7 +160,6 @@ RSpec.describe ProjectsController, type: :controller do
       end
     end
   end
-
 
   describe "#destroy" do
     context "as an authorized user" do
@@ -235,3 +221,4 @@ RSpec.describe ProjectsController, type: :controller do
   end
 
 
+end

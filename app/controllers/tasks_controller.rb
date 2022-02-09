@@ -64,7 +64,7 @@ class TasksController < ApplicationController
   end
 
   def toggle
-    @task.update_attributes(completed: !@task.completed)
+    @task.update_attribute(completed: !@task.completed)
   end
 
   private

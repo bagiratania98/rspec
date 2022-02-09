@@ -40,11 +40,6 @@ RSpec.describe User, type: :model do
     expect(user.errors[:email]).to include("has already been taken")
   end
 
-  it "does something with multiple users" do
-    user1 = FactoryBot.create(:user)
-    user2 = FactoryBot.create(:user)
-    expect(true).to be_truthy
-  end
 
   it "returns a user's full name as a string" do
     user = FactoryBot.build(:user, first_name: "John", last_name: "Doe")

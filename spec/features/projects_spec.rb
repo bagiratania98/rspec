@@ -5,6 +5,8 @@ RSpec.feature "Projects", type: :feature do
     user = FactoryBot.create(:user)
     sign_in user
 
+    visit root_path
+
     expect {
       click_link "New Project"
       fill_in "Name", with: "Test Project"

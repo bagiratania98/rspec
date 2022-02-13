@@ -16,7 +16,6 @@ RSpec.feature "Tasks", type: :feature do
 
     click_link "RSpec tutorial"
     check "Finish RSpec tutorial"
-
     expect(page).to have_css "label#task_#{task.id}.completed"
     expect(task.reload).to be_completed
 
